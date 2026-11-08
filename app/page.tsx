@@ -12,8 +12,10 @@ import CTASection from '@/components/CTASection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 import QuoteModal from '@/components/QuoteModal';
+import { useTheme } from '@/lib/theme-context';
 
 export default function HomePage() {
+  const { theme } = useTheme();
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [modalInitialService, setModalInitialService] = useState<string>('Construction Material Supply');
   const [modalInitialItem, setModalInitialItem] = useState<string>('');
@@ -30,38 +32,42 @@ export default function HomePage() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-background text-text-primary">
-      {/* Sticky Top Navbar */}
+    <div
+      className={`min-h-screen transition-colors duration-200 ${
+        theme === 'dark' ? 'bg-[#0a192f] text-gray-100' : 'bg-[#f8fafc] text-gray-900'
+      }`}
+    >
+      {/* Sticky Fixed Top Navbar (HRMS style) */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
-      {/* Main Page Flow */}
-      <main className="flex-1">
-        {/* 1. Powerful Hero Section */}
+      {/* Main Page Flow with fixed navbar top padding offset */}
+      <main className="pt-16 sm:pt-20 flex-1">
+        {/* 1. High-Impact Hero with Slideshow & Dark Gradient Overlay */}
         <Hero onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 2. About Us Section */}
-        <AboutSection />
-
-        {/* 3. Dedicated Services Section */}
+        {/* 2. Featured Department Services (HRMS signature card design) */}
         <ServicesSection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 4. Filterable Products Catalog */}
+        {/* 3. Filterable Products Catalog (HRMS listing cards & badges) */}
         <ProductsSection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 5. Demonstrative Projects Showcase */}
+        {/* 4. Demonstrative Projects Showcase */}
         <ProjectsSection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 6. Why Choose Us Section */}
+        {/* 5. About Us & Grounded Pillars */}
+        <AboutSection />
+
+        {/* 6. Why Choose Us (HRMS feature cards) */}
         <WhyChooseUs />
 
         {/* 7. Conversion CTA Section */}
         <CTASection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 8. Verified Contact & Map Section */}
+        {/* 8. Contact & Inquiry Form (HRMS 3xl form card) */}
         <ContactSection />
       </main>
 
-      {/* Footer */}
+      {/* Footer matching HRMS deep navy footer */}
       <Footer />
 
       {/* Interactive Global Quote Modal */}

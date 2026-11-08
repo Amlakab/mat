@@ -11,12 +11,13 @@ import {
   Building2,
   CheckCircle2,
   MessageSquare,
-  HelpCircle,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
+import { useTheme } from '@/lib/theme-context';
 
 export default function ContactSection() {
-  const { t } = useLanguage();
+  const { t, isAmharic } = useLanguage();
+  const { theme } = useTheme();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -35,178 +36,200 @@ export default function ContactSection() {
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 900);
+    }, 700);
   };
 
   return (
-    <section id="contact" className="section-padding">
-      <div className="container-custom">
-        {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center space-y-3 mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-navy-800 text-primary-700 dark:text-primary-300 text-xs font-semibold uppercase tracking-wider">
-            <Mail className="w-3.5 h-3.5 text-accent-600" />
+    <section
+      id="contact"
+      className={`py-12 sm:py-16 px-4 border-b transition-colors duration-200 ${
+        theme === 'dark' ? 'bg-[#112240]/60 border-slate-800' : 'bg-slate-50 border-gray-200'
+      }`}
+    >
+      <div className="container mx-auto max-w-5xl">
+        {/* Section Header (HRMS style) */}
+        <div className="max-w-2xl mx-auto text-center space-y-2 mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
+            <Mail className="w-3.5 h-3.5" />
             <span>{t('contact.badge')}</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-text-primary tracking-tight">
+          <h2
+            className={`text-2xl sm:text-3xl font-extrabold ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}
+          >
             {t('contact.title')}
           </h2>
-          <p className="text-base text-text-secondary leading-relaxed font-normal">
+          <p
+            className={`text-xs sm:text-sm ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}
+          >
             {t('contact.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Official Contact Card & Business Details */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-7 rounded-2xl bg-surface border border-border shadow-sm space-y-6">
-              <div className="flex items-center gap-3 pb-4 border-b border-border">
-                <div className="w-12 h-12 rounded-xl bg-primary-700 text-white flex items-center justify-center font-black text-lg">
+          {/* Left Column: Official Contact Card (HRMS style) */}
+          <div className="lg:col-span-5 space-y-4">
+            <div
+              className={`p-6 sm:p-7 rounded-3xl border shadow-sm space-y-5 ${
+                theme === 'dark'
+                  ? 'bg-[#112240] border-slate-700'
+                  : 'bg-white border-gray-200'
+              }`}
+            >
+              <div className="flex items-center gap-3 pb-4 border-b border-gray-100 dark:border-slate-800">
+                <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center font-extrabold text-lg shadow-md">
                   MAT
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-lg text-text-primary leading-tight">
-                    MAT Engineering and Trading PLC
+                  <h3
+                    className={`font-bold text-base leading-tight ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}
+                  >
+                    MAT Engineering & Trading PLC
                   </h3>
-                  <p className="text-xs text-text-muted mt-0.5">
-                    Engineering, Supply & General Contracting
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    {t('brand.subtitle')}
                   </p>
                 </div>
               </div>
 
-              {/* Verified Company Contact Items */}
+              {/* Verified Contact Details (HRMS icons & layout) */}
               <div className="space-y-4">
                 {/* General Manager */}
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-primary-50 dark:bg-navy-800 text-primary-600 dark:text-primary-400 shrink-0">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`p-2.5 rounded-xl shrink-0 ${
+                      theme === 'dark'
+                        ? 'bg-blue-900/30 text-blue-400'
+                        : 'bg-blue-50 text-blue-600'
+                    }`}
+                  >
                     <User className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-text-muted font-medium">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                       {t('contact.info.gm_title')}
                     </div>
-                    <div className="text-base font-bold text-text-primary">
+                    <div
+                      className={`text-sm font-bold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}
+                    >
                       {t('contact.info.gm_name')}
                     </div>
                   </div>
                 </div>
 
                 {/* Direct Phone */}
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-accent-50 dark:bg-navy-800 text-accent-600 dark:text-accent-400 shrink-0">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`p-2.5 rounded-xl shrink-0 ${
+                      theme === 'dark'
+                        ? 'bg-emerald-900/30 text-emerald-400'
+                        : 'bg-emerald-50 text-emerald-600'
+                    }`}
+                  >
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-text-muted font-medium">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                       {t('contact.info.phone_label')}
                     </div>
                     <a
                       href="tel:+251911994405"
-                      className="text-base font-bold text-accent-600 dark:text-accent-400 hover:underline"
+                      className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline block"
                     >
-                      {t('brand.phone')}
+                      {t('contact.info.phone_val')}
                     </a>
                   </div>
                 </div>
 
                 {/* Location */}
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-blue-50 dark:bg-navy-800 text-blue-600 dark:text-blue-400 shrink-0">
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`p-2.5 rounded-xl shrink-0 ${
+                      theme === 'dark'
+                        ? 'bg-amber-900/30 text-amber-400'
+                        : 'bg-amber-50 text-amber-600'
+                    }`}
+                  >
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-text-muted font-medium">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                       {t('contact.info.location_label')}
                     </div>
-                    <div className="text-sm font-semibold text-text-primary">
+                    <div
+                      className={`text-sm font-semibold ${
+                        theme === 'dark' ? 'text-gray-200' : 'text-gray-800'
+                      }`}
+                    >
                       {t('contact.info.location_val')}
-                    </div>
-                    <div className="text-xs text-text-muted mt-0.5">
-                      Addis Ababa & Regional Projects Serviced
                     </div>
                   </div>
                 </div>
 
-                {/* Hours */}
-                <div className="flex items-start gap-3.5">
-                  <div className="p-2.5 rounded-lg bg-emerald-50 dark:bg-navy-800 text-emerald-600 dark:text-emerald-400 shrink-0">
+                {/* Working Hours */}
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`p-2.5 rounded-xl shrink-0 ${
+                      theme === 'dark'
+                        ? 'bg-purple-900/30 text-purple-400'
+                        : 'bg-purple-50 text-purple-600'
+                    }`}
+                  >
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-xs text-text-muted font-medium">
+                    <div className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                       {t('contact.info.hours_label')}
                     </div>
-                    <div className="text-xs sm:text-sm font-semibold text-text-primary">
+                    <div
+                      className={`text-xs font-semibold ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      }`}
+                    >
                       {t('contact.info.hours_val')}
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Quick direct call action banner */}
-              <div className="pt-4 border-t border-border">
-                <a
-                  href="tel:+251911994405"
-                  className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-accent-600 hover:bg-accent-700 text-white font-bold text-sm shadow transition-all active:scale-95"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Call 0911 994 405</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Google Map Section ready for company coordinates */}
-            <div className="p-5 rounded-2xl bg-surface border border-border shadow-sm space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-text-muted">
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-primary-500" />
-                  Business Location Map
-                </span>
-                <span className="text-[10px] text-accent-600 font-semibold">
-                  Location Ready
-                </span>
-              </div>
-
-              {/* Interactive map placeholder without inventing specific coordinates */}
-              <div className="relative h-48 w-full rounded-xl overflow-hidden border border-border bg-slate-100 dark:bg-navy-800">
-                <iframe
-                  title="MAT Engineering & Trading PLC Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126115.09341773094!2d38.70425983756314!3d9.006004543781702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2set!4v1714000000000!5m2!1sen!2set"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={false}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="opacity-90 dark:opacity-80"
-                />
-              </div>
-
-              <p className="text-[11px] text-text-muted leading-relaxed">
-                {t('contact.map_placeholder')}
-              </p>
             </div>
           </div>
 
-          {/* Right Column: Contact Inquiry Form */}
+          {/* Right Column: HRMS Form Card */}
           <div className="lg:col-span-7">
-            <div className="p-7 sm:p-8 rounded-2xl bg-surface border border-border shadow-sm">
-              <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-2">
-                Send an Inquiry or Quote Request
-              </h3>
-              <p className="text-xs sm:text-sm text-text-secondary mb-6">
-                Fill in the details below and our team will get in touch directly.
-              </p>
-
+            <div
+              className={`p-6 sm:p-8 rounded-3xl border shadow-sm ${
+                theme === 'dark'
+                  ? 'bg-[#112240] border-slate-700 shadow-xl'
+                  : 'bg-white border-gray-200'
+              }`}
+            >
               {submitted ? (
-                <div className="py-12 px-6 text-center space-y-4 rounded-xl bg-emerald-50 dark:bg-navy-800/90 border border-emerald-200 dark:border-emerald-800">
-                  <div className="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto shadow-md">
+                <div className="text-center py-12 space-y-4">
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-md">
                     <CheckCircle2 className="w-8 h-8" />
                   </div>
-                  <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-300">
-                    Message Sent Successfully!
-                  </h4>
-                  <p className="text-sm text-text-secondary max-w-md mx-auto">
-                    {t('contact.form.success')}
+                  <h3
+                    className={`text-xl font-bold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}
+                  >
+                    {isAmharic ? 'መልእክትዎ በተሳካ ሁኔታ ተልኳል!' : 'Message Sent Successfully!'}
+                  </h3>
+                  <p
+                    className={`text-xs sm:text-sm max-w-md mx-auto ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                    }`}
+                  >
+                    {isAmharic
+                      ? 'የMAT Engineering የደንበኞች አገልግሎት ክፍል ጥያቄዎን ተመልክቶ በቅርቡ ያነጋግርዎታል።'
+                      : 'Our project team has received your inquiry. We will contact you shortly.'}
                   </p>
                   <button
                     onClick={() => {
@@ -219,108 +242,135 @@ export default function ContactSection() {
                         message: '',
                       });
                     }}
-                    type="button"
-                    className="mt-4 px-5 py-2 text-xs font-semibold rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition-colors"
+                    className="mt-4 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-md"
                   >
-                    Send Another Inquiry
+                    {isAmharic ? 'ሌላ መልእክት ላክ' : 'Send Another Message'}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Name */}
                     <div>
-                      <label className="block text-xs font-semibold text-text-primary mb-1.5">
-                        {t('contact.form.name')} <span className="text-red-500">*</span>
+                      <label className="block text-xs font-semibold mb-1 text-gray-700 dark:text-gray-300">
+                        {isAmharic ? 'ሙሉ ስም *' : 'Full Name *'}
                       </label>
                       <input
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        placeholder="e.g. Abebe Bekele"
-                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-border bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                          theme === 'dark'
+                            ? 'bg-slate-800 border-slate-700 text-white placeholder-gray-400'
+                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                        }`}
+                        placeholder={isAmharic ? 'ስምዎን ያስገቡ' : 'Your name'}
                       />
                     </div>
 
-                    {/* Phone */}
                     <div>
-                      <label className="block text-xs font-semibold text-text-primary mb-1.5">
-                        {t('contact.form.phone')} <span className="text-red-500">*</span>
+                      <label className="block text-xs font-semibold mb-1 text-gray-700 dark:text-gray-300">
+                        {isAmharic ? 'ስልክ ቁጥር *' : 'Phone Number *'}
                       </label>
                       <input
                         type="tel"
                         required
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="0911..."
-                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-border bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                          theme === 'dark'
+                            ? 'bg-slate-800 border-slate-700 text-white placeholder-gray-400'
+                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                        }`}
+                        placeholder="09... / +251..."
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Email */}
                     <div>
-                      <label className="block text-xs font-semibold text-text-primary mb-1.5">
-                        {t('contact.form.email')}
+                      <label className="block text-xs font-semibold mb-1 text-gray-700 dark:text-gray-300">
+                        {isAmharic ? 'ኢሜይል (አማራጭ)' : 'Email (Optional)'}
                       </label>
                       <input
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="contact@company.com"
-                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-border bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                          theme === 'dark'
+                            ? 'bg-slate-800 border-slate-700 text-white placeholder-gray-400'
+                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                        }`}
+                        placeholder="example@domain.com"
                       />
                     </div>
 
-                    {/* Service Needed */}
                     <div>
-                      <label className="block text-xs font-semibold text-text-primary mb-1.5">
-                        {t('contact.form.service')}
+                      <label className="block text-xs font-semibold mb-1 text-gray-700 dark:text-gray-300">
+                        {isAmharic ? 'የፍላጎት ዘርፍ' : 'Area of Interest'}
                       </label>
                       <select
                         value={formData.service}
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                        className="w-full px-4 py-2.5 text-sm rounded-xl border border-border bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                          theme === 'dark'
+                            ? 'bg-slate-800 border-slate-700 text-white'
+                            : 'bg-white border-gray-300 text-gray-900'
+                        }`}
                       >
-                        <option value="Construction Material Supply">01 — Construction Material Supply</option>
-                        <option value="Home Furniture">02 — Home Furniture</option>
-                        <option value="Office Furniture">03 — Office Furniture</option>
-                        <option value="General Contracting">04 — General Contracting</option>
-                        <option value="General Inquiry">General Corporate Inquiry</option>
+                        <option value="Construction Material Supply">
+                          {isAmharic ? 'የኮንስትራክሽን ዕቃዎች አቅርቦት' : 'Construction Material Supply'}
+                        </option>
+                        <option value="Home Furniture">
+                          {isAmharic ? 'የቤት ፈርኒቸር' : 'Home Furniture'}
+                        </option>
+                        <option value="Office Furniture">
+                          {isAmharic ? 'የቢሮ ፈርኒቸር' : 'Office Furniture'}
+                        </option>
+                        <option value="General Contracting">
+                          {isAmharic ? 'ጠቅላላ ተቋራጭ (ግንባታ)' : 'General Contracting & Building'}
+                        </option>
                       </select>
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
-                    <label className="block text-xs font-semibold text-text-primary mb-1.5">
-                      {t('contact.form.message')} <span className="text-red-500">*</span>
+                    <label className="block text-xs font-semibold mb-1 text-gray-700 dark:text-gray-300">
+                      {isAmharic ? 'መልእክት / የፕሮጀክት ዝርዝር *' : 'Message / Project Details *'}
                     </label>
                     <textarea
                       required
                       rows={4}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      placeholder="Please specify materials, furniture models, or project scope..."
-                      className="w-full px-4 py-2.5 text-sm rounded-xl border border-border bg-surface-elevated focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                        theme === 'dark'
+                          ? 'bg-slate-800 border-slate-700 text-white placeholder-gray-400'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                      }`}
+                      placeholder={
+                        isAmharic
+                          ? 'የሚፈልጉትን የዕቃ ብዛት ወይም የፕሮጀክትዎን መረጃ ይፃፉልን...'
+                          : 'Tell us about the materials, quantities, or contracting scope you need...'
+                      }
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-primary-700 hover:bg-primary-800 text-white font-bold text-sm shadow-md transition-all active:scale-95 disabled:opacity-60"
+                    className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm sm:text-base shadow-md transition-all disabled:opacity-50 hover:scale-[1.01] flex items-center justify-center gap-2"
                   >
-                    {isSubmitting ? (
-                      <span>{t('contact.form.sending')}</span>
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4 text-accent-300" />
-                        <span>{t('contact.form.submit')}</span>
-                      </>
-                    )}
+                    <Send className="w-4 h-4" />
+                    <span>
+                      {isSubmitting
+                        ? isAmharic
+                          ? 'በመላክ ላይ...'
+                          : 'Sending...'
+                        : isAmharic
+                        ? 'መልእክት ላክ'
+                        : 'Send Message'}
+                    </span>
                   </button>
                 </form>
               )}

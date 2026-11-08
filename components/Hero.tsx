@@ -1,16 +1,16 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import {
   ArrowRight,
-  ShieldCheck,
+  ArrowLeft,
+  Phone,
   Building,
   Truck,
   Armchair,
-  Briefcase,
-  PhoneCall,
   CheckCircle2,
+  FileText,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/language-context';
 
@@ -19,162 +19,175 @@ interface HeroProps {
 }
 
 export default function Hero({ onOpenQuoteModal }: HeroProps) {
-  const { t } = useLanguage();
+  const { t, isAmharic } = useLanguage();
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSlides = [
+    {
+      image:
+        'https://images.unsplash.com/photo-1541888946425-d0fbb18615f8?auto=format&fit=crop&w=1920&q=80',
+      tag: isAmharic ? 'የኮንስትራክሽን ግብዓቶች አቅራቢ' : 'Construction Material Supplier',
+      title: isAmharic ? 'ጥራት ያላቸው የኮንስትራክሽን ዕቃዎች' : 'Quality Construction Materials',
+      subtitle: isAmharic
+        ? 'የደረጃ 60 ባለአከርካሪ ብረት፣ ሲሚንቶ፣ ብሎኬት እና የጣሪያ ቆርቆሮዎችን በተመጣጣኝ ዋጋ በመላው ኢትዮጵያ እናቀርባለን።'
+        : 'High-tensile Grade 60 rebar, certified Portland cement, solid HCB blocks, and premium roofing sheets delivered nationwide.',
+      primaryBtn: isAmharic ? 'ዋጋ ይጠይቁ' : 'Request Quotation',
+      secondaryBtn: isAmharic ? 'የዕቃዎች ዝርዝር ይመልከቱ' : 'Explore Materials',
+      serviceType: 'Construction Material Supply',
+    },
+    {
+      image:
+        'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80',
+      tag: isAmharic ? 'የቤት እና የቢሮ ፈርኒቸር' : 'Home & Office Furniture',
+      title: isAmharic ? 'ዘመናዊ እና ውብ የቤትና የቢሮ ፈርኒቸር' : 'Modern Home & Office Furniture',
+      subtitle: isAmharic
+        ? 'የአስተዳዳሪ ጠረጴዛዎች፣ ምቹ ወንበሮች፣ የሶፋ ስብስቦች እና የመኝታ ቤት እቃዎች ለውብ እና ምቹ የሥራና የኑሮ ቦታ።'
+        : 'Executive managerial desks, ergonomic task seating, contemporary sofas, and custom bedroom sets crafted for style and durability.',
+      primaryBtn: isAmharic ? 'ፈርኒቸር ይጠይቁ' : 'Request Catalog Quote',
+      secondaryBtn: isAmharic ? 'የፈርኒቸር ዝርዝር' : 'Browse Furniture',
+      serviceType: 'Office Furniture',
+    },
+    {
+      image:
+        'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80',
+      tag: isAmharic ? 'ጠቅላላ ተቋራጭ' : 'General Contractor',
+      title: isAmharic ? 'አስተማማኝ የህንፃ ግንባታ እና እድሳት' : 'General Contracting & Building',
+      subtitle: isAmharic
+        ? 'የንግድና የመኖሪያ ሕንፃ ግንባታ፣ የመዋቅር ምህንድስና፣ እና የውስጥ ማስዋብ ሥራዎችን በከፍተኛ ጥራት እናከናውናለን።'
+        : 'Turnkey commercial building, residential engineering, renovation, and interior architectural fit-outs executed to strict standards.',
+      primaryBtn: isAmharic ? 'ፕሮጀክት ይጀምሩ' : 'Start a Project',
+      secondaryBtn: isAmharic ? 'አገልግሎቶቻችን' : 'Our Services',
+      serviceType: 'General Contracting',
+    },
+  ];
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  }, [heroSlides.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  }, [heroSlides.length]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 6500);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
+  const slide = heroSlides[currentSlide];
 
   return (
-    <section id="home" className="relative pt-6 pb-16 lg:pt-12 lg:pb-24 overflow-hidden">
-      {/* Background Graphic / Overlay */}
-      <div className="absolute inset-0 pointer-events-none -z-10">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-10 dark:opacity-15"
-          style={{
-            backgroundImage:
-              'url("https://images.unsplash.com/photo-1541888946425-d0fbb18615f8?auto=format&fit=crop&w=1920&q=80")',
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary-500/10 dark:bg-primary-500/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent-500/10 dark:bg-accent-500/15 rounded-full blur-3xl pointer-events-none" />
-      </div>
+    <section id="home" className="relative">
+      {/* Slideshow Hero Section matching HRMS Hero height & overlay */}
+      <div className="relative min-h-[540px] sm:h-[620px] lg:h-[700px] overflow-hidden flex items-center">
+        {/* Background Image with HRMS exact dark gradient overlay */}
+        <div className="absolute inset-0">
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            className="object-cover transition-all duration-700 scale-100"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/35" />
+        </div>
 
-      <div className="container-custom">
-        {/* Main Hero Header */}
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          {/* Trust badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 dark:bg-navy-800 border border-primary-200/60 dark:border-navy-600 text-xs sm:text-sm font-semibold text-primary-700 dark:text-primary-300 shadow-sm animate-subtle-pulse">
-            <span className="w-2 h-2 rounded-full bg-accent-600" />
-            <span>{t('hero.tag')}</span>
-          </div>
+        {/* Hero Content matching HRMS text & button layouts */}
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center">
+          <div className="max-w-3xl mx-auto">
+            {/* Tag Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-semibold text-white shadow-sm mb-4 sm:mb-5">
+              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              <span>{slide.tag}</span>
+            </div>
 
-          {/* Headline */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-text-primary leading-[1.15]">
-            <span className="block text-primary-900 dark:text-white">
-              Building Better.
-            </span>
-            <span className="block text-primary-600 dark:text-primary-400">
-              Supplying Better.
-            </span>
-            <span className="block text-accent-600 dark:text-accent-400">
-              Furnishing Better.
-            </span>
-          </h1>
+            {/* Main Headline */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold mb-3 sm:mb-5 text-white tracking-tight drop-shadow-md leading-tight">
+              {slide.title}
+            </h1>
 
-          {/* Subheadline */}
-          <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed font-normal">
-            {t('hero.subheadline')}
-          </p>
+            {/* Subtitle */}
+            <p className="text-sm sm:text-lg lg:text-xl mb-6 sm:mb-8 text-gray-200 px-2 leading-relaxed drop-shadow max-w-2xl mx-auto">
+              {slide.subtitle}
+            </p>
 
-          {/* CTAs */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
-            <button
-              onClick={() => onOpenQuoteModal()}
-              type="button"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold text-white bg-primary-700 hover:bg-primary-800 rounded-xl shadow-lg hover:shadow-xl transition-all transform active:scale-95"
-            >
-              <span>{t('hero.primary_cta')}</span>
-              <ArrowRight className="w-4 h-4 text-accent-300" />
-            </button>
+            {/* Action Buttons (HRMS exact button design) */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
+              <button
+                onClick={() => onOpenQuoteModal(slide.serviceType)}
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm sm:text-base transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 inline-flex items-center justify-center gap-2"
+              >
+                <FileText className="w-4 h-4 text-blue-200" />
+                <span>{slide.primaryBtn}</span>
+              </button>
 
-            <a
-              href="#services"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 text-base font-semibold text-text-primary bg-surface hover:bg-slate-100 dark:hover:bg-navy-800 border border-border rounded-xl shadow-sm hover:shadow transition-all"
-            >
-              <span>{t('hero.secondary_cta')}</span>
-            </a>
+              <a
+                href="#products"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3 border-2 border-white/90 hover:bg-white hover:text-gray-900 text-white rounded-xl font-bold text-sm sm:text-base transition-all duration-200 backdrop-blur-sm inline-flex items-center justify-center gap-2"
+              >
+                <span>{slide.secondaryBtn}</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
 
-            <a
-              href="tel:+251911994405"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 text-sm font-semibold text-accent-700 dark:text-accent-300 bg-accent-50 dark:bg-navy-800/80 border border-accent-200 dark:border-navy-600 rounded-xl hover:bg-accent-100 dark:hover:bg-navy-700 transition-colors"
-            >
-              <PhoneCall className="w-4 h-4 text-accent-600" />
-              <span>0911 994 405</span>
-            </a>
-          </div>
+              <a
+                href="tel:+251911994405"
+                className="w-full sm:w-auto px-5 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold text-sm sm:text-base transition-all duration-200 backdrop-blur-sm border border-white/20 inline-flex items-center justify-center gap-2"
+              >
+                <Phone className="w-4 h-4 text-emerald-400" />
+                <span>0911 994 405</span>
+              </a>
+            </div>
 
-          {/* Quick Pillars highlight */}
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-sm text-text-muted">
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              Ethiopian Enterprise
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              Direct Material Delivery
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-              Custom Wood & Metal Works
-            </span>
+            {/* Ethiopian Enterprise Verification Tag */}
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-gray-300">
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                MAT Engineering and Trading PLC
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-blue-400" />
+                {t('brand.gm')}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                Nationwide Delivery
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* 3 Service Cards Below the Hero */}
-        <div className="mt-14 sm:mt-18 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: Construction Materials */}
-          <div className="relative group p-6 sm:p-7 rounded-2xl bg-surface border border-border shadow-sm hover:border-primary-400 dark:hover:border-primary-500 hover-card-elevate">
-            <div className="w-12 h-12 rounded-xl bg-primary-100 dark:bg-navy-700 text-primary-700 dark:text-primary-300 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-              <Truck className="w-6 h-6" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-primary-600 dark:text-primary-400 mb-1">
-              Supply Division
-            </div>
-            <h3 className="text-xl font-bold text-text-primary mb-2.5">
-              {t('hero.card1.title')}
-            </h3>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">
-              {t('hero.card1.desc')}
-            </p>
-            <div className="pt-2 border-t border-border/80 flex items-center justify-between text-xs font-semibold text-primary-600 dark:text-primary-400">
-              <a href="#services" className="inline-flex items-center gap-1 group-hover:underline">
-                <span>View Products & Supplies</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
+        {/* Navigation Arrows (HRMS exact style) */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-black/70 text-white transition-all backdrop-blur-sm border border-white/20 hover:scale-110"
+          aria-label="Previous Slide"
+        >
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+        </button>
 
-          {/* Card 2: Home & Office Furniture */}
-          <div className="relative group p-6 sm:p-7 rounded-2xl bg-surface border border-border shadow-sm hover:border-accent-400 dark:hover:border-accent-500 hover-card-elevate">
-            <div className="w-12 h-12 rounded-xl bg-accent-100 dark:bg-navy-700 text-accent-700 dark:text-accent-300 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-              <Armchair className="w-6 h-6" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-accent-600 dark:text-accent-400 mb-1">
-              Furnishing Division
-            </div>
-            <h3 className="text-xl font-bold text-text-primary mb-2.5">
-              {t('hero.card2.title')}
-            </h3>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">
-              {t('hero.card2.desc')}
-            </p>
-            <div className="pt-2 border-t border-border/80 flex items-center justify-between text-xs font-semibold text-accent-600 dark:text-accent-400">
-              <a href="#products" className="inline-flex items-center gap-1 group-hover:underline">
-                <span>Explore Catalog</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
+        <button
+          onClick={nextSlide}
+          className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 p-2 sm:p-3 rounded-full bg-black/40 hover:bg-black/70 text-white transition-all backdrop-blur-sm border border-white/20 hover:scale-110"
+          aria-label="Next Slide"
+        >
+          <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+        </button>
 
-          {/* Card 3: General Contracting */}
-          <div className="relative group p-6 sm:p-7 rounded-2xl bg-surface border border-border shadow-sm hover:border-primary-400 dark:hover:border-primary-500 hover-card-elevate">
-            <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-navy-700 text-blue-700 dark:text-blue-300 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-              <Building className="w-6 h-6" />
-            </div>
-            <div className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
-              Contracting Division
-            </div>
-            <h3 className="text-xl font-bold text-text-primary mb-2.5">
-              {t('hero.card3.title')}
-            </h3>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">
-              {t('hero.card3.desc')}
-            </p>
-            <div className="pt-2 border-t border-border/80 flex items-center justify-between text-xs font-semibold text-primary-600 dark:text-primary-400">
-              <a href="#services" className="inline-flex items-center gap-1 group-hover:underline">
-                <span>Contracting Services</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </div>
+        {/* Slide Indicators */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {heroSlides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentSlide === idx ? 'w-8 bg-blue-500' : 'w-2 bg-white/50 hover:bg-white/80'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </div>
     </section>

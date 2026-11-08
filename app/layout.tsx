@@ -48,13 +48,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
+        />
       </head>
-      <body className="font-sans antialiased selection:bg-primary-600 selection:text-white">
+      <body className="font-sans antialiased overflow-x-hidden selection:bg-blue-600 selection:text-white">
         <LanguageProvider>
           <ThemeProvider>
-            <div className="min-h-screen flex flex-col">
+            <div className="relative min-h-screen overflow-x-hidden flex flex-col">
               {children}
             </div>
           </ThemeProvider>
