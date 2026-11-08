@@ -142,23 +142,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
               ))}
 
               {/* Action Buttons: Request Quote */}
-              <div className="flex items-center space-x-2 ml-4">
-                <button
-                  onClick={() => onOpenQuoteModal()}
-                  className="px-3 sm:px-5 py-1.5 sm:py-2 border border-primary dark:border-primary text-primary dark:text-primary hover:bg-primary dark:hover:bg-primary hover:text-white dark:hover:text-white rounded-lg font-medium transition-all duration-300 text-sm hover:scale-105 flex items-center gap-1.5"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>{t('hero.primary_cta')}</span>
-                </button>
-
-                <a
-                  href="tel:+251911994405"
-                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 text-sm hover:scale-105 flex items-center gap-1.5 shadow-sm"
-                >
-                  <Phone className="w-3.5 h-3.5" />
-                  <span>0911 994 405</span>
-                </a>
-              </div>
+              
 
               {/* Language Dropdown (HRMS exact style) */}
               <div className="relative ml-2 sm:ml-4" ref={langDropdownRef}>
@@ -279,26 +263,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
               </a>
             ))}
 
-            <div className="pt-4 border-t border-border flex flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  onOpenQuoteModal();
-                }}
-                className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
-              >
-                <FileText className="w-4 h-4" />
-                <span>{t('hero.primary_cta')}</span>
-              </button>
-
-              <a
-                href="tel:+251911994405"
-                className="w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-white rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2"
-              >
-                <Phone className="w-4 h-4" />
-                <span>0911 994 405</span>
-              </a>
-            </div>
+            
           </div>
         )}
       </header>
